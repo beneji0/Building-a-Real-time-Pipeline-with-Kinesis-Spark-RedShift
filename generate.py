@@ -3,9 +3,17 @@ import csv
 import json
 import time
 from configparser import ConfigParser
+from pathlib import Path
+import os
 
+# Create a ConfigParser object
 config = ConfigParser()
-config.read("connections.ini")
+
+# Read the configuration file
+path = Path(__file__)
+ROOT_DIR = path.parent.absolute()
+config_path = os.path.join(ROOT_DIR, "connections.ini")
+config.read(config_path)
 
 awsaccesskey = config.get("AWS", "awsAccessKey")
 awssecretaccesskey = config.get("AWS", "awsSecretKey")

@@ -2,9 +2,17 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.types import *
 from configparser import ConfigParser
+from pathlib import Path
+import os
 
+# Create a ConfigParser object
 config = ConfigParser()
-config.read("connections.ini")
+
+# Read the configuration file
+path = Path(__file__)
+ROOT_DIR = path.parent.absolute()
+config_path = os.path.join(ROOT_DIR, "connections.ini")
+config.read(config_path)
 
 redshiftURL = config.get("REDSHIFT", "redshiftURL")
 redshiftUser = config.get("REDSHIFT", "redshiftUser")
