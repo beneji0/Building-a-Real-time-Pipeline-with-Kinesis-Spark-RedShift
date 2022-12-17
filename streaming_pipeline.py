@@ -62,13 +62,8 @@ deduplicated_df = transformed_df.groupBy("id") \
         first("temp").alias("temp"),\
         first("out/in").alias("out/in"))
 
-transformed_df = deduplicated_df.withColumn("country", when(col("country") == "Isareal", "Palestine").otherwise(col("country")))
-
-# Create a new column that contains time on minute
-transformed_df = transformed_df.withColumn("timeOnSiteMinute", col("timeOnSite") / 60)
-
 # Write the transformed data to Redshift
-query = transformed_df.writeStream \
+query = deduplicated_df.writeStream \
     .format("jdbc") \
     .option("url", redshiftURL) \
     .option("dbtable", redshiftTable) \
